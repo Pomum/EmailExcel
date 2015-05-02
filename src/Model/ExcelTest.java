@@ -47,90 +47,10 @@ public class ExcelTest
 		WritableWorkbook workbook = Workbook.createWorkbook(file, wbSettings);
 		workbook.createSheet("Deelnemers", 0);
 		WritableSheet excelSheet = workbook.getSheet(0);
-		createLabel(excelSheet);
-		createContent(excelSheet);
-		
 		workbook.createSheet("Vrijwilligers", 1);
 		WritableSheet excelSheet2 = workbook.getSheet(1);
 
 		workbook.write();
 		workbook.close();
-	}
-
-	private void createLabel(WritableSheet sheet) throws WriteException 
-	{
-		// Lets create a times font
-		WritableFont arial11 = new WritableFont(WritableFont.ARIAL, 11);
-		// Define the cell format
-		arial = new WritableCellFormat(arial11);
-		// Lets automatically wrap the cells
-		arial.setWrap(true);
-
-		// create create a bold font with unterlines
-		WritableFont arial11ptBoldUnderline = new WritableFont(WritableFont.ARIAL, 11, WritableFont.BOLD, false,UnderlineStyle.SINGLE);
-		arialBoldUnderline = new WritableCellFormat(arial11ptBoldUnderline);
-		// Lets automatically wrap the cells
-		arialBoldUnderline.setWrap(true);
-
-		CellView cv = new CellView();
-		cv.setFormat(arial);
-		cv.setFormat(arialBoldUnderline);
-		cv.setAutosize(true);
-
-		// Write a few headers
-		addCaption(sheet, 0, 0, "Header 1");
-		addCaption(sheet, 1, 0, "This is another header");
-
-	}
-
-	private void createContent(WritableSheet sheet) throws WriteException, RowsExceededException 
-	{
-		// Write a few number
-		for (int i = 1; i < 10; i++) 
-		{
-			// First column
-			addNumber(sheet, 0, i, i + 10);
-			// Second column
-			addNumber(sheet, 1, i, i * i);
-		}
-		// Lets calculate the sum of it
-		StringBuffer buf = new StringBuffer();
-		buf.append("SUM(A2:A10)");
-		Formula f = new Formula(0, 10, buf.toString());
-		sheet.addCell(f);
-		buf = new StringBuffer();
-		buf.append("SUM(B2:B10)");
-		f = new Formula(1, 10, buf.toString());
-		sheet.addCell(f);
-
-		// now a bit of text
-		for (int i = 12; i < 20; i++) 
-		{
-			// First column
-			addLabel(sheet, 0, i, "Boring text " + i);
-			// Second column
-			addLabel(sheet, 1, i, "Another text");
-		}
-	}
-
-	private void addCaption(WritableSheet sheet, int column, int row, String s) throws RowsExceededException, WriteException 
-	{
-		Label label;
-		label = new Label(column, row, s, arialBoldUnderline);
-		sheet.addCell(label);
-	}
-
-	private void addNumber(WritableSheet sheet, int column, int row, Integer integer) throws WriteException, RowsExceededException 
-	{
-		Number number;
-		number = new Number(column, row, integer, arial);
-		sheet.addCell(number);
-	}
-
-	private void addLabel(WritableSheet sheet, int column, int row, String s) throws WriteException, RowsExceededException 
-	{
-		Label label;
-		label = new Label(column, row, s, arial);
-		sheet.addCell(label);
 	}
 }
