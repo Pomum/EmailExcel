@@ -20,10 +20,18 @@ import jxl.write.biff.RowsExceededException;
 
 public class ExcelTest 
 {
-	private WritableCellFormat timesBoldUnderline;
-	private WritableCellFormat times;
+	private WritableCellFormat arialBoldUnderline;
+	private WritableCellFormat arial;
 	private String inputFile;
 
+	public static void main(String[] args) throws WriteException, IOException 
+	{
+		ExcelTest test = new ExcelTest();
+		test.setOutputFile("c:/Excel/testExcel.xls");
+		test.write();
+		System.out.println("Please check the result file under c:/Excel/testExcel.xls");
+	}
+	
 	public void setOutputFile(String inputFile) 
 	{
 		this.inputFile = inputFile;
@@ -37,10 +45,13 @@ public class ExcelTest
 		wbSettings.setLocale(new Locale("en", "EN"));
 
 		WritableWorkbook workbook = Workbook.createWorkbook(file, wbSettings);
-		workbook.createSheet("Report", 0);
+		workbook.createSheet("Deelnemers", 0);
 		WritableSheet excelSheet = workbook.getSheet(0);
 		createLabel(excelSheet);
 		createContent(excelSheet);
+		
+		workbook.createSheet("Vrijwilligers", 1);
+		WritableSheet excelSheet2 = workbook.getSheet(1);
 
 		workbook.write();
 		workbook.close();
@@ -49,23 +60,21 @@ public class ExcelTest
 	private void createLabel(WritableSheet sheet) throws WriteException 
 	{
 		// Lets create a times font
-		WritableFont times10pt = new WritableFont(WritableFont.TIMES, 10);
+		WritableFont arial11 = new WritableFont(WritableFont.ARIAL, 11);
 		// Define the cell format
-		times = new WritableCellFormat(times10pt);
+		arial = new WritableCellFormat(arial11);
 		// Lets automatically wrap the cells
-		times.setWrap(true);
+		arial.setWrap(true);
 
 		// create create a bold font with unterlines
-		WritableFont times10ptBoldUnderline = new WritableFont(
-				WritableFont.TIMES, 10, WritableFont.BOLD, false,
-				UnderlineStyle.SINGLE);
-		timesBoldUnderline = new WritableCellFormat(times10ptBoldUnderline);
+		WritableFont arial11ptBoldUnderline = new WritableFont(WritableFont.ARIAL, 11, WritableFont.BOLD, false,UnderlineStyle.SINGLE);
+		arialBoldUnderline = new WritableCellFormat(arial11ptBoldUnderline);
 		// Lets automatically wrap the cells
-		timesBoldUnderline.setWrap(true);
+		arialBoldUnderline.setWrap(true);
 
 		CellView cv = new CellView();
-		cv.setFormat(times);
-		cv.setFormat(timesBoldUnderline);
+		cv.setFormat(arial);
+		cv.setFormat(arialBoldUnderline);
 		cv.setAutosize(true);
 
 		// Write a few headers
@@ -74,8 +83,7 @@ public class ExcelTest
 
 	}
 
-	private void createContent(WritableSheet sheet) throws WriteException,
-			RowsExceededException 
+	private void createContent(WritableSheet sheet) throws WriteException, RowsExceededException 
 	{
 		// Write a few number
 		for (int i = 1; i < 10; i++) 
@@ -105,36 +113,24 @@ public class ExcelTest
 		}
 	}
 
-	private void addCaption(WritableSheet sheet, int column, int row, String s)
-			throws RowsExceededException, WriteException 
+	private void addCaption(WritableSheet sheet, int column, int row, String s) throws RowsExceededException, WriteException 
 	{
 		Label label;
-		label = new Label(column, row, s, timesBoldUnderline);
+		label = new Label(column, row, s, arialBoldUnderline);
 		sheet.addCell(label);
 	}
 
-	private void addNumber(WritableSheet sheet, int column, int row,
-			Integer integer) throws WriteException, RowsExceededException 
+	private void addNumber(WritableSheet sheet, int column, int row, Integer integer) throws WriteException, RowsExceededException 
 	{
 		Number number;
-		number = new Number(column, row, integer, times);
+		number = new Number(column, row, integer, arial);
 		sheet.addCell(number);
 	}
 
-	private void addLabel(WritableSheet sheet, int column, int row, String s)
-			throws WriteException, RowsExceededException 
+	private void addLabel(WritableSheet sheet, int column, int row, String s) throws WriteException, RowsExceededException 
 	{
 		Label label;
-		label = new Label(column, row, s, times);
+		label = new Label(column, row, s, arial);
 		sheet.addCell(label);
-	}
-
-	public static void main(String[] args) throws WriteException, IOException 
-	{
-		ExcelTest test = new ExcelTest();
-		test.setOutputFile("c:/excel/testExcel.xls");
-		test.write();
-		System.out
-				.println("Please check the result file under c:/excel/testExcel.xls");
 	}
 }
