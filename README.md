@@ -1,4 +1,4 @@
-# EmailExcel
+# Read-Emails-Write-Excel
 Used to read emails, and put them in excel. This is written for a very specialized purpose.
 
 Used JExcelApi => http://jexcelapi.sourceforge.net/ <br/>
