@@ -22,7 +22,7 @@ public class ReadMails
 		this.ec = ec;
 		
 		String mailPop3Host = "";
-		String mailStoreType = "";
+		String mailStoreType = "pop3";
 		String mailUser = "";
 		String mailPassword = "";
 
@@ -46,15 +46,19 @@ public class ReadMails
 			Message[] messages = emailFolder.getMessages();
 			for (Message message : messages) 
 			{
-				if(message.getSubject() == "Inschrijving Deelnemers")
+				if(message.getSubject().equals("Inschrijving Deelnemers"))
 				{
 					Email email = new Email(message.getSubject(), "" + message.getFrom()[0], message.getContent().toString());
 					ec.addDeelnemersMails(email);
 				}
-				else if(message.getSubject() == "Inschrijving Vrijwilligers")
+				else if(message.getSubject().equals("Inschrijving Vrijwilligers"))
 				{
 					Email email = new Email(message.getSubject(), "" + message.getFrom()[0], message.getContent().toString());
 					ec.addVrijwilligersMails(email);
+				}
+				else 
+				{
+					System.out.println(message.getSubject());
 				}
 			}
 

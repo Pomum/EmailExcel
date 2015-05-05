@@ -1,3 +1,6 @@
+import java.io.IOException;
+
+import jxl.write.WriteException;
 import Controller.EmailController;
 
 /** 
@@ -6,7 +9,7 @@ import Controller.EmailController;
 
 public class Launch 
 {
-	public static void main(String[] args) 
+	public static void main(String[] args) throws WriteException, IOException 
 	{
 		new EmailController();
 	}
